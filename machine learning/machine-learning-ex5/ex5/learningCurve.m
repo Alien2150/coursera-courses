@@ -53,11 +53,22 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+% error_train(i) contains the training error for i examples (and similarly for error_val(i)).
 
+% fprintf("X: %dx%d, x_val: %dx%d, m: %d\n", size(X), size(Xval), m);
+% pause; 
 
+% x = 12 x 2 
+% x_val = 21 x 2 
+% m = 12
 
+for i = 1:m
+    theta = trainLinearReg(X(1:i, :), y(1:i), lambda);
+    error_train(i) = linearRegCostFunction(X(1:i, :), y(1:i), theta, 0);
+    error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);
+end 
 
-
+% fprintf("error_train: %dx%d, err_val %dx%d\n", size(error_train), size(error_val));
 
 % -------------------------------------------------------------
 

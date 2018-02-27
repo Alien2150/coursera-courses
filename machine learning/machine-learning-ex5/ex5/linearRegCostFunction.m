@@ -18,18 +18,25 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
+% Calc costs 
 
+t_new = theta;
+t_new(1) = 0;
 
+% hypothesis 
+hx0 = X * theta;
+diff = hx0 - y; % 12x1
+% costs 
+reg = ((lambda/(2*m)) * sum(t_new .^ 2));
+J = 1/(2*m) * sum((diff) .^ 2) + reg;
 
-
-
-
-
-
-
-
-
-
+% grad:
+if (lambda == 0) 
+    reg = 0;
+else 
+    reg = ((lambda / m) * t_new);
+end 
+grad = (X' * diff)/m + reg; % right term will be 0 for t_new(1)
 % =========================================================================
 
 grad = grad(:);

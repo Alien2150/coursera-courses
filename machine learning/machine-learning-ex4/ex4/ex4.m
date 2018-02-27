@@ -149,10 +149,6 @@ checkNNGradients;
 fprintf('\nProgram paused. Press enter to continue.\n');
 pause;
 
-% debug 
-return;
-
-
 %% =============== Part 8: Implement Regularization ===============
 %  Once your backpropagation implementation is correct, you should now
 %  continue to implement the regularization with the cost and gradient.
@@ -173,7 +169,6 @@ fprintf(['\n\nCost at (fixed) debugging parameters (w/ lambda = %f): %f ' ...
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
-
 
 %% =================== Part 8: Training NN ===================
 %  You have now implemented all the code necessary to train a neural 

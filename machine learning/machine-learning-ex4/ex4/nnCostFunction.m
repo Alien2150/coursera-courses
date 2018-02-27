@@ -112,37 +112,19 @@ J = (1/m) .* sum(sum(left - right)) + reg;
 % Part 2:: Implement backpropagation
 % =========================================================================
 % Backpropagate the "error"
-% Calc small delta 
-Delta3 = hx0 - y;
+% Calc small delta
+% TODO Really take more care about your dimensions! Otherwise you run into the transpose-ception hell
+delta3 = a3 - y_new;
 
-% fprintf("hx0 %dx%d, theta2: %dx%d delta3: %dx%d\n", size(hx0), size(Theta2), size(Delta3));
-% hx0 = 5000 x 10
-% theta2 = 10 * 26 
-% Delta3 = 5000 x 10 
-% fprintf("Sig: %dx%d\n", size(sigmoidGradient(z2)));
-% sigmoid = 5000 x 25
+t = (Theta2' * delta3'); % 26 x 5000 
+grad = [ones(size(z2,1), 1) sigmoidGradient(z2)]; % 5000 x 26
+delta2 = (t' .* grad)';
 
-% nCostFunction: product: nonconformant arguments (op1 is 5000x26, op2 is 5000x10)
-% fprintf("z2: %dx%d\n", size(z2));
-% z2 = 5000 x 25 
-grad2 = [ones(size(z2,1), 1) sigmoidGradient(z2)];
-Delta2 = (Delta3 * Theta2 .* grad2)(:, 2:end);
+% fprintf("t: %dx%d, grad: %dx%d, delta2: %dx%d\n", size(t), size(grad), size(delta2));
 
-%fprintf("delta2: %dx%d\n", size(Delta2));
-%fprintf("delta3: %dx%d\n", size(Delta3));
-
-% Delta3: 5000 x 10 
-% Delta2: 5000 x 25
-
-% Calc accumaltors (Capital delta)
-%DELTA1 = ;
-%DELTA2 = ;
-
-% TODO ::: FIXME ?
-
-Theta1_grad = X' * Delta2 ./ m;
-Theta2_grad = a3' * Delta3 ./ m;
-
+% Retrieve grad (unregularized version)
+Theta2_grad = (1/m) * (delta3' * a2) + (lambda/m) * [zeros(size(Theta2, 1), 1), Theta2(:, 2:end)];
+Theta1_grad = (1/m) * delta2(2:end, :) * a1 + (lambda/m) * [zeros(size(Theta1, 1), 1), Theta1(:, 2:end)];
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
